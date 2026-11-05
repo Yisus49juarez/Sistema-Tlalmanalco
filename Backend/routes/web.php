@@ -1,7 +1,6 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json(['mensaje' => 'El motor del Backend está funcionando correctamente.']);
 });
