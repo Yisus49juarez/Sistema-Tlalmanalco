@@ -3,7 +3,6 @@
         
         <div class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-200/70 overflow-hidden">
             
-            <!-- Barra superior multicolor -->
             <div class="h-2 w-full bg-gradient-to-r from-amber-400 via-pink-500 via-purple-600 to-cyan-400"></div>
 
             <div class="p-8 sm:p-10">
@@ -11,7 +10,6 @@
                     Iniciar Sesión
                 </h1>
 
-                <!-- Alerta de Errores -->
                 <div id="alert-error" class="hidden bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl p-3.5 mb-5 font-semibold"></div>
 
                 <form id="form-login" class="space-y-5">

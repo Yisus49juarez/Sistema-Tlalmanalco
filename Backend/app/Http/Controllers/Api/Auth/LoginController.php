@@ -1,32 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
-use App\Actions\Auth\RegisterTuristaAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
     public function __construct(
-        private readonly AuthService $authService,
-        private readonly RegisterTuristaAction $registerTuristaAction
+        private readonly AuthService $authService
     ) {}
-
-    public function register(RegisterUserRequest $request): JsonResponse
-    {
-        $resultado = $this->registerTuristaAction->execute($request->validated());
-
-        return response()->json([
-            'status'  => 'ok',
-            'mensaje' => 'Cuenta de turista creada exitosamente.',
-            'data'    => $resultado,
-        ], 201);
-    }
 
     public function login(LoginRequest $request): JsonResponse
     {

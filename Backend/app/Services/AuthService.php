@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Rol;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -20,17 +21,15 @@ class AuthService
             ]);
         }
 
-        // Revocar tokens previos para mantener sesión limpia
         $usuario->tokens()->delete();
 
         $token = $usuario->createToken('auth_token')->plainTextToken;
-        $nombreRol = $usuario->rol->nombre;
 
         return [
-            'usuario'      => $usuario,
-            'rol'          => $nombreRol,
-            'redirect_to'  => $this->obtenerRutaPorRol($nombreRol),
-            'token'        => $token,
+            'usuario'     => $usuario,
+            'rol'         => $usuario->rol->nombre,
+            'redirect_to' => $this->obtenerRutaPorRol($usuario->rol_id),
+            'token'       => $token,
         ];
     }
 
@@ -39,12 +38,12 @@ class AuthService
         $usuario->currentAccessToken()?->delete();
     }
 
-    private function obtenerRutaPorRol(string $rol): string
+    private function obtenerRutaPorRol(int $rolId): string
     {
-        return match ($rol) {
-            'Administrador' => '/admin/dashboard',
-            'Staff'         => '/staff/eventos',
-            default         => '/cartelera',
+        return match ($rolId) {
+            Rol::ID_ADMINISTRADOR => '/admin/dashboard',
+            Rol::ID_STAFF => '/staff/eventos',
+            default => '/cartelera',
         };
     }
 }

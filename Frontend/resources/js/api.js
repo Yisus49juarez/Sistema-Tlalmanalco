@@ -73,5 +73,4 @@ export const api = {
     }
 };
 
-// Exponer globalmente para poder usarlo en cualquier vista Blade
 window.api = api;

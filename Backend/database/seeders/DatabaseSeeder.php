@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Crear Roles oficiales
-        $rolAdmin   = Rol::firstOrCreate(['nombre' => 'Administrador']);
-        $rolStaff   = Rol::firstOrCreate(['nombre' => 'Staff']);
-        $rolTurista = Rol::firstOrCreate(['nombre' => 'Turista']);
+        $rolAdmin = Rol::updateOrCreate(['id' => Rol::ID_ADMINISTRADOR], ['nombre' => Rol::NOMBRE_ADMINISTRADOR]);
+        $rolStaff = Rol::updateOrCreate(['id' => Rol::ID_STAFF], ['nombre' => Rol::NOMBRE_STAFF]);
+        $rolTurista = Rol::updateOrCreate(['id' => Rol::ID_TURISTA], ['nombre' => Rol::NOMBRE_TURISTA]);
 
         // 2. Crear Usuarios base por cada rol
         User::updateOrCreate(

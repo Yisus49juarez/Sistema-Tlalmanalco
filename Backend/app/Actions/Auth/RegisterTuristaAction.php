@@ -12,10 +12,8 @@ class RegisterTuristaAction
     public function execute(array $datosValidados): array
     {
         return DB::transaction(function () use ($datosValidados) {
-            $rolTurista = Rol::firstOrCreate(['nombre' => 'Turista']);
-
             $usuario = User::create([
-                'rol_id'          => $rolTurista->id,
+                'rol_id'          => Rol::ID_TURISTA,
                 'nombre_completo' => $datosValidados['nombre_completo'],
                 'email'           => $datosValidados['email'],
                 'password'        => Hash::make($datosValidados['password']),

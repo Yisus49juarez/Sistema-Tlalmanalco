@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -8,21 +9,20 @@ use Illuminate\Support\Facades\Route;
 // Vista 1.1: Pantalla de Inicio (Pública)
 Route::get('/inicio', [HomeController::class, 'index']);
 
-// Vista 1.2 y 1.3: Registro e Inicio de Sesión (Públicas)
+// Vista 1.2 y 1.3: Registro e Inicio de Sesión
 Route::prefix('auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [RegisterController::class, 'store']);
+    Route::post('/login', [LoginController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/me', [AuthController::class, 'me']);
-        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/me', [LoginController::class, 'me']);
+        Route::post('/logout', [LoginController::class, 'logout']);
     });
 });
 
 // Rutas protegidas por Rol (Validación real mediante RoleMiddleware)
 Route::middleware('auth:sanctum')->prefix('panel')->group(function () {
 
-    // Exclusivo para Administrador
     Route::get('/admin', function (Request $request) {
         return response()->json([
             'status'   => 'ok',
@@ -38,7 +38,6 @@ Route::middleware('auth:sanctum')->prefix('panel')->group(function () {
         ]);
     })->middleware('role:Administrador');
 
-    // Exclusivo para Staff
     Route::get('/staff', function (Request $request) {
         return response()->json([
             'status'   => 'ok',
@@ -54,7 +53,6 @@ Route::middleware('auth:sanctum')->prefix('panel')->group(function () {
         ]);
     })->middleware('role:Staff');
 
-    // Exclusivo para Turista
     Route::get('/turista', function (Request $request) {
         return response()->json([
             'status'   => 'ok',
