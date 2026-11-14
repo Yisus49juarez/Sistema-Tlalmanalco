@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\HomeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Vista 1.1: Pantalla de Inicio (Pública)
@@ -20,51 +19,21 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-// Rutas protegidas por Rol (Validación real mediante RoleMiddleware)
+
+
+
+
+// Rutas protegidas por Rol
 Route::middleware('auth:sanctum')->prefix('panel')->group(function () {
+    Route::middleware('role:Administrador')
+        ->prefix('admin')
+        ->group(base_path('routes/api/admin.php'));
 
-    Route::get('/admin', function (Request $request) {
-        return response()->json([
-            'status'   => 'ok',
-            'rol'      => $request->user()->rol->nombre,
-            'usuario'  => $request->user()->nombre_completo,
-            'email'    => $request->user()->email,
-            'permisos' => [
-                'Dashboard de métricas financieras y afluencia',
-                'Gestión y asignación de roles (Administrador, Staff, Turista)',
-                'Asignación de tareas logísticas al Staff',
-                'Gestión de publicaciones, eventos y catálogo de souvenirs',
-            ],
-        ]);
-    })->middleware('role:Administrador');
+    Route::middleware('role:Staff')
+        ->prefix('staff')
+        ->group(base_path('routes/api/staff.php'));
 
-    Route::get('/staff', function (Request $request) {
-        return response()->json([
-            'status'   => 'ok',
-            'rol'      => $request->user()->rol->nombre,
-            'usuario'  => $request->user()->nombre_completo,
-            'email'    => $request->user()->email,
-            'permisos' => [
-                'CRUD de eventos y control logístico de recintos',
-                'Escaneo y validación de códigos QR en puerta',
-                'Gestión de inventario y preparación de pedidos de souvenirs',
-                'Publicación de avisos rápidos y chat de soporte',
-            ],
-        ]);
-    })->middleware('role:Staff');
-
-    Route::get('/turista', function (Request $request) {
-        return response()->json([
-            'status'   => 'ok',
-            'rol'      => $request->user()->rol->nombre,
-            'usuario'  => $request->user()->nombre_completo,
-            'email'    => $request->user()->email,
-            'permisos' => [
-                'Exploración de cartelera y adquisición de boletos con pase QR',
-                'Compra de artesanías y recuerdos en la tienda virtual',
-                'Chat directo de soporte con Staff y Administración',
-                'Consulta de historial de compras y descarga de boletos',
-            ],
-        ]);
-    })->middleware('role:Turista');
+    Route::middleware('role:Turista')
+        ->prefix('turista')
+        ->group(base_path('routes/api/turista.php'));
 });
