@@ -1,21 +1,4 @@
 <?php
-<<<<<<< HEAD
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-
-// 1. Rutas PÚBLICAS (No requieren token para entrar)
-Route::post('/registro', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-// 2. Rutas PROTEGIDAS (El middleware exige un token válido)
-Route::middleware('auth:sanctum')->group(function () {
-    
-    // Cualquier ruta que pongas aquí adentro estará blindada.
-    // Ejemplo para más adelante:
-    // Route::post('/logout', [AuthController::class, 'logout']);
-    
-=======
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
@@ -53,5 +36,4 @@ Route::middleware('auth:sanctum')->prefix('panel')->group(function () {
     Route::middleware('role:Turista')
         ->prefix('turista')
         ->group(base_path('routes/api/turista.php'));
->>>>>>> main
 });

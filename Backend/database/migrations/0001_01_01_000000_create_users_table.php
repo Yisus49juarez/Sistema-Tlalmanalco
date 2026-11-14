@@ -8,23 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-<<<<<<< HEAD
-        // Se mantiene como 'users', agregando tus columnas
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('rol_id');
-            $table->string('nombre_completo');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-         $table->string('email')->primary();
-         $table->string('token');
-         $table->timestamp('created_at')->nullable();
-=======
         // Tabla 1: roles
         Schema::create('roles', function (Blueprint $table) {
             $table->id(); // BIGINT UNSIGNED AUTO_INCREMENT PK
@@ -40,7 +23,6 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('password', 255);
             $table->timestamps();
->>>>>>> main
         });
 
         Schema::create('sessions', function (Blueprint $table) {
