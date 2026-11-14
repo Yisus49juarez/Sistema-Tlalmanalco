@@ -6,11 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+<<<<<<< HEAD
         // Se mantiene como 'users', agregando tus columnas
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -26,6 +24,23 @@ return new class extends Migration
          $table->string('email')->primary();
          $table->string('token');
          $table->timestamp('created_at')->nullable();
+=======
+        // Tabla 1: roles
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id(); // BIGINT UNSIGNED AUTO_INCREMENT PK
+            $table->string('nombre', 50)->unique();
+            $table->timestamps();
+        });
+
+        // Tabla 2: usuarios
+        Schema::create('usuarios', function (Blueprint $table) {
+            $table->id(); // BIGINT UNSIGNED AUTO_INCREMENT PK
+            $table->foreignId('rol_id')->constrained('roles')->restrictOnDelete();
+            $table->string('nombre_completo', 100);
+            $table->string('email', 100)->unique();
+            $table->string('password', 255);
+            $table->timestamps();
+>>>>>>> main
         });
 
         Schema::create('sessions', function (Blueprint $table) {
@@ -38,13 +53,10 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('roles');
     }
 };
