@@ -12,29 +12,18 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-<<<<<<< HEAD
-    protected $fillable = [
-        'nombre_completo',
-        'email',
-        'password',
-        'rol_id',
-=======
     protected $table = 'usuarios';
 
     protected $fillable = [
-        'rol_id',
         'nombre_completo',
         'email',
         'password',
->>>>>>> main
+        'rol_id',
     ];
 
     protected $hidden = [
         'password',
-<<<<<<< HEAD
         'remember_token',
-=======
->>>>>>> main
     ];
 
     protected function casts(): array
@@ -43,8 +32,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-<<<<<<< HEAD
-=======
 
     public function rol(): BelongsTo
     {
@@ -55,5 +42,4 @@ class User extends Authenticatable
     {
         return $this->rol && strcasecmp($this->rol->nombre, $nombreRol) === 0;
     }
->>>>>>> main
 }

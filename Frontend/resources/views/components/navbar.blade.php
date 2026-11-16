@@ -19,21 +19,23 @@
             </div>
         </a>
 
-        <!-- Enlaces Centrales con los colores exactos de la Ilustración 6 -->
-        <nav class="hidden md:flex items-center gap-8 text-sm font-extrabold">
-            <a href="/#carrusel-lugares" class="text-pink-600 hover:text-pink-500 transition">
-                Lugares
-            </a>
-            <a href="/#seccion-eventos" class="text-emerald-600 hover:text-emerald-500 transition">
-                Eventos
-            </a>
-            <a href="/#seccion-eventos" class="text-sky-500 hover:text-sky-400 transition">
-                Souvenirs
-            </a>
-            <a href="#footer-contacto" class="text-purple-700 hover:text-purple-500 transition">
-                Contacto
-            </a>
-        </nav>
+        <!-- Enlaces Centrales: Se ocultan en rutas de admin/staff o cuando el usuario logueado es Administrador -->
+        @unless(request()->is('admin*') || request()->is('staff*'))
+            <nav id="nav-links-publicos" class="hidden md:flex items-center gap-8 text-sm font-extrabold">
+                <a href="/#carrusel-lugares" class="text-pink-600 hover:text-pink-500 transition">
+                    Lugares
+                </a>
+                <a href="/#seccion-eventos" class="text-emerald-600 hover:text-emerald-500 transition">
+                    Eventos
+                </a>
+                <a href="/#seccion-eventos" class="text-sky-500 hover:text-sky-400 transition">
+                    Souvenirs
+                </a>
+                <a href="#footer-contacto" class="text-purple-700 hover:text-purple-500 transition">
+                    Contacto
+                </a>
+            </nav>
+        @endunless
 
         <!-- Botones Superiores: Iniciar Sesión y Crear Cuenta -->
         <div id="nav-guest" class="flex items-center gap-3">
@@ -56,3 +58,22 @@
 
     </div>
 </header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.getElementById('nav-links-publicos');
+        const roleBadge = document.getElementById('nav-user-role');
+        if (!navLinks || !roleBadge) return;
+
+        const verificarRolAdmin = () => {
+            const textoRol = roleBadge.textContent.trim().toLowerCase();
+            if (textoRol === 'administrador' || textoRol === 'staff') {
+                navLinks.classList.add('hidden');
+                navLinks.classList.remove('md:flex', 'flex');
+            }
+        };
+
+        verificarRolAdmin();
+        new MutationObserver(verificarRolAdmin).observe(roleBadge, { childList: true, characterData: true, subtree: true });
+    });
+</script>
