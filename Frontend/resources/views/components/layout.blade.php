@@ -29,16 +29,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
-
-    <!-- Componente Navbar -->
     <x-navbar />
-
-    <!-- Contenido Dinámico de cada Vista -->
     <main class="flex-grow">
         {{ $slot }}
     </main>
-
-    <!-- Componente Footer -->
     <x-footer />
 </body>
 </html>
